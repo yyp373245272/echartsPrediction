@@ -5,7 +5,6 @@ import App from './App'
 import router from './router'
 import echarts from 'echarts'
 import './assets/css/global.less'
-
 Vue.prototype.$echarts = echarts
 
 // 引入全局样式
