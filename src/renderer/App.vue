@@ -1,15 +1,17 @@
 <template>
   <div id="app">
-    <pic-page/>
+    <lay-out/>
   </div>
 </template>
 
 <script>
 import PicPage from './components/PicPage'
+import LayOut from './components/LayOut'
 export default {
   name: 'echart-demo',
   components: {
-    picPage: PicPage
+    picPage: PicPage,
+    LayOut: LayOut
   }
 }
 </script>

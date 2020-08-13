@@ -1,33 +1,48 @@
 <template>
-  <div class="com-page">
-      <sole-qtty v-show="file !== null" :fileName="file"/>
-  </div>
+    <div id="graph-page">
+      <div id="graph-top"></div>
+        <div id="graph-bottom">
+          <section id="graph-lr">
+          <div id="graph-left"></div>
+          <div id="graph-right"></div>
+        </section>
+      </div>
+    </div>
 </template>
+
 <script>
-import SoleQtty from './SoleQtty'
-const {dialog} = require('electron').remote
 export default {
-  data () {
-    return {
-      file: 'C:\\Users\\37324\\workspace\\github\\PredictionApp\\model\\input.xlsx'
-    }
-  },
-  components: {
-    SoleQtty: SoleQtty
-  },
-  methods: {
-    choseFile () {
-      let filePath = dialog.showOpenDialog({
-        properties: ['openFile'],
-        filters: [
-          { name: 'Custom File Type', extensions: ['xls', 'xlsx', 'txt'] }
-        ]
-      })
-      if (filePath !== null) {
-        this.file = filePath
-      }
-      console.log(filePath)
-    }
-  }
+
 }
 </script>
+
+<style>
+#graph-page {
+  height: 100%;
+  width: 100%;
+}
+#graph-top {
+  height: 480px;
+  background-color: rgb(215, 255, 151);
+  margin-bottom: 12px;
+}
+#graph-bottom {
+  height: 480px;
+  background-color: rgb(157, 255, 0);
+}
+#graph-lr {
+  height: 100%;
+  display: flex;
+  background-color: rgb(255, 0, 0);
+}
+#graph-left {
+  height: 100%;
+  background-color: rgb(255, 0, 234);
+  flex: 5;
+}
+#graph-right {
+  height: 100%;
+  background-color: rgb(255, 142, 246);
+  flex: 5;
+}
+</style>
