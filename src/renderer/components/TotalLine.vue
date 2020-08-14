@@ -14,13 +14,13 @@ export default {
     }
   },
   mounted () {
-    this.$nextTick(function () {
-      this.initChart()
-      setTimeout(() => {
-        this.updateChart()
-        this.chartInstance.resize()
-      }, 50)
-    })
+    this.initChart()
+    setTimeout(() => {
+      this.chartInstance.resize()
+    }, 10)
+    this.updateChart()
+  },
+  activated () {
   },
   methods: {
     // 初始化
@@ -34,13 +34,24 @@ export default {
       })
     },
     updateChart () {
-      const date = this.skuData.output.map((item) => {
+      const totalData = this.skuData.history.concat(this.skuData.output)
+      console.log(totalData)
+      const dateHis = this.skuData.history.map((item) => {
         return item.date
       })
-      const qtty = this.skuData.output.map((item) => {
+      const datePre = this.skuData.output.map((item) => {
+        return item.date
+      })
+      const qttyHis = this.skuData.history.map((item) => {
         return item.qtty
       })
-      console.log(date, qtty)
+      const qttyPre = this.skuData.output.map((item) => {
+        return item.qtty
+      })
+      var date = dateHis.concat(datePre)
+      var qtty = qttyHis.concat(qttyPre)
+      var pointMid = qttyHis.length
+      var pointEnd = qtty.length
       const option = {
         title: {
           text: '▐ 销量统计',
@@ -67,17 +78,29 @@ export default {
         tooltip: {
           trigger: 'axis',
           axisPointer: {
-            type: 'line',
-            z: 0,
-            lineStyle: {
-              width: 30,
-              color: '#2D3443'
-            }
+            type: 'cross',
+            z: 0
+          },
+          formatter: function (params) {
+            console.log(params[0])
+            return params
           }
+        },
+        visualMap: {
+          show: false,
+          dimension: 0,
+          pieces: [{
+            lt: pointMid,
+            color: 'green'
+          }, {
+            gte: pointMid,
+            lt: pointEnd,
+            color: 'red'
+          }]
         },
         series: [
           {
-            type: 'bar',
+            type: 'line',
             data: qtty,
             barWidth: 10,
             label: {
@@ -107,3 +130,9 @@ export default {
   }
 }
 </script>
+<style scoped>
+div {
+  height: 100%;
+  width: 100%;
+}
+</style>

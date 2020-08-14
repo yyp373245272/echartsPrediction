@@ -11,6 +11,11 @@ export default new Router({
       component: require('@/components/LandingPage').default
     },
     {
+      path: '/page/:id',
+      name: 'sku-page',
+      component: require('@/components/SkuPage').default
+    },
+    {
       path: '*',
       redirect: '/'
     }

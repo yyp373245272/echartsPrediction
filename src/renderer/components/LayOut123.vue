@@ -1,49 +1,35 @@
 <template>
-  <section class="layer">
-    <div class="side-bar">
-      <div>
-        <el-button type="primary" round @click="addFile()">导入</el-button>
-      </div>
-      <div>
-        <el-button type="primary" round>导出</el-button>
-      </div>
-      <div class="menu">
-      <el-menu
-      :default-active="activeIndex" 
-      class="el-menu-demo" 
-      mode="vertical" 
-      @select="handleSelect"
-      :router="new Boolean(true)"
-      >
-      <el-menu-item index="/">
-      </el-menu-item>
-        <el-menu-item 
-        v-for="(item,index) in allData"
-        :key="item.sku"
-        :id="index"
-        :route="'/page/'+item.sku"
-        :index="'/page/'+item.sku"
-        >
-        {{ item.sku }}
-        </el-menu-item>
-      </el-menu>
-      </div>
+    <div id="main-layout" v-loading="loading">
+        <div id="head-bar">
+            <el-button @click="addFile()" id="add-btn" type="primary" round icon="el-icon-plus"></el-button>
+        </div>
+        <div id="main-graph">
+          <el-tabs tab-position="left" style="height: 100%;">
+            <el-tab-pane 
+            :key="item.sku"
+            v-for="(item,index) in allData" 
+            :label="item.sku"
+            :id="index">
+            <pic-page :skuData="allData[index]"/>
+            </el-tab-pane>
+          </el-tabs>
+        </div>
     </div>
-    <div class="main-page">
-      <router-view/>
-    </div>
-  </section>
 </template>
+
 <script>
+import PicPage from './PicPage'
 const xlsx = require('node-xlsx')
 const {dialog} = require('electron').remote
 export default {
+  components: {
+    PicPage: PicPage
+  },
   data () {
     return {
       loading: false,
       file: null,
-      allData: [],
-      activeIndex: '1'
+      allData: []
     }
   },
   methods: {
@@ -54,9 +40,6 @@ export default {
         this.initData()
         this.loading = false
       }, 1000)
-      this.$router.push({
-        name: ''
-      })
     },
     // 弹出文件选择窗口，返回文件绝对路径
     windowChoose () {
@@ -73,6 +56,7 @@ export default {
           path: filePath[0]
         }
       }
+      console.log(this.file)
     },
     initData () {
       this.loadInput(this.file.path)
@@ -155,28 +139,36 @@ export default {
       var date = new Date(1900, 0, num - 1)
       var dateStr = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate()
       return dateStr.toString()
-    },
-    handleSelect (key, keyPath) {
-      console.log(key, keyPath)
     }
   }
 }
 </script>
+
 <style>
-.layer {
-  width: 100%;
+#main-layout {
+  border: 2px solid;
+  min-width: 1024px;
+  max-width: 1920px;
+  margin: 0 auto;
+  padding: 10px;
   height: 100%;
-  display: flex;
 }
-.side-bar {
-  width: 100%;
+#main-graph {
   height: 100%;
-  flex: 3;
 }
-.main-page {
-  width: 100%;
-  height: 100%;
-  background-color: pink;
-  flex: 7;
+.el-tabs__item{
+  padding: 3px;
+  background-color: rgb(61, 61, 61);
+  color: rgb(255, 255, 255) !important;
+  font-weight: 500 !important;
+  border-radius: 7px;
+  margin: 10px;
+}
+.el-tabs__item.is-active {
+  font-weight: 700 !important;
+  background-color: rgb(36, 36, 36);
+}
+.el-tabs__active-bar {
+  background-color: rgb(255, 255, 255) !important;
 }
 </style>
