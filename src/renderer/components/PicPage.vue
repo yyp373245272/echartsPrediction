@@ -1,8 +1,8 @@
 <template>
     <div id="graph-page">
       <div id="graph-top">
+        <div id="total-line" :skuData="skuData"/>
         <total-line :skuData="skuData"/>
-        <!-- <button @click="debug()">here</button> -->
         </div>
         <div id="graph-bottom">
           <section id="graph-lr">
@@ -23,6 +23,16 @@ export default {
   },
   props: ['skuData'],
   mounted () {
+    console.log(this.skuData.sku + 'mounted')
+  },
+  beforeUpdate () {
+    console.log(this.skuData.sku + 'beforeUpdate')
+  },
+  updated () {
+    console.log(this.skuData.sku + 'updated')
+  },
+  activated () {
+    console.log(this.skuData.sku + 'activated')
   },
   methods: {
     debug () {
@@ -38,26 +48,28 @@ export default {
   width: 100%;
 }
 #graph-top {
-  height: 260px;
+  height: 400px;
+  margin-bottom: 10px;
 }
 #graph-bottom {
-  height: 400px;
+  height: 500px;
 }
 #graph-lr {
   height: 100%;
   display: flex;
+  color: rgb(11, 240, 250);
 }
 #graph-left {
   height: 95%;
   flex: 5;
-    background: linear-gradient(to left, #196aa8, #196aa8) left top no-repeat,
-              linear-gradient(to bottom, #196aa8, #196aa8) left top no-repeat,
-              linear-gradient(to left, #196aa8, #196aa8) right top no-repeat, 
-              linear-gradient(to bottom, #196aa8, #196aa8) right top no-repeat,
-              linear-gradient(to left, #196aa8, #196aa8) left bottom no-repeat, 
-              linear-gradient(to bottom, #196aa8, #196aa8) left bottom no-repeat,
-              linear-gradient(to left, #196aa8, #196AA8) right bottom no-repeat,
-              linear-gradient(to left, #196aa8, #196aa8) right bottom no-repeat;
+    background: linear-gradient(to left, rgb(11, 240, 250), rgb(11, 240, 250)) left top no-repeat,
+              linear-gradient(to bottom, rgb(11, 240, 250), rgb(11, 240, 250)) left top no-repeat,
+              linear-gradient(to left, rgb(11, 240, 250), rgb(11, 240, 250)) right top no-repeat, 
+              linear-gradient(to bottom, rgb(11, 240, 250), rgb(11, 240, 250)) right top no-repeat,
+              linear-gradient(to left, rgb(11, 240, 250), rgb(11, 240, 250)) left bottom no-repeat, 
+              linear-gradient(to bottom, rgb(11, 240, 250), rgb(11, 240, 250)) left bottom no-repeat,
+              linear-gradient(to left, rgb(11, 240, 250), rgb(11, 240, 250)) right bottom no-repeat,
+              linear-gradient(to left, rgb(11, 240, 250), rgb(11, 240, 250)) right bottom no-repeat;
   background-size: 3px 40px, 40px 3px, 3px 40px, 40px 3px;
   padding: 4px;
   margin: 10px;
@@ -65,27 +77,27 @@ export default {
 #graph-right {
   height: 95%;
   flex: 5;
-    background: linear-gradient(to left, #196aa8, #196aa8) left top no-repeat,
-              linear-gradient(to bottom, #196aa8, #196aa8) left top no-repeat,
-              linear-gradient(to left, #196aa8, #196aa8) right top no-repeat, 
-              linear-gradient(to bottom, #196aa8, #196aa8) right top no-repeat,
-              linear-gradient(to left, #196aa8, #196aa8) left bottom no-repeat, 
-              linear-gradient(to bottom, #196aa8, #196aa8) left bottom no-repeat,
-              linear-gradient(to left, #196aa8, #196AA8) right bottom no-repeat,
-              linear-gradient(to left, #196aa8, #196aa8) right bottom no-repeat;
+  background: linear-gradient(to left, rgb(11, 240, 250), rgb(11, 240, 250)) left top no-repeat,
+              linear-gradient(to bottom, rgb(11, 240, 250), rgb(11, 240, 250)) left top no-repeat,
+              linear-gradient(to left, rgb(11, 240, 250), rgb(11, 240, 250)) right top no-repeat, 
+              linear-gradient(to bottom, rgb(11, 240, 250), rgb(11, 240, 250)) right top no-repeat,
+              linear-gradient(to left, rgb(11, 240, 250), rgb(11, 240, 250)) left bottom no-repeat, 
+              linear-gradient(to bottom, rgb(11, 240, 250), rgb(11, 240, 250)) left bottom no-repeat,
+              linear-gradient(to left, rgb(11, 240, 250), rgb(11, 240, 250)) right bottom no-repeat,
+              linear-gradient(to left, rgb(11, 240, 250), rgb(11, 240, 250)) right bottom no-repeat;
   background-size: 3px 40px, 40px 3px, 3px 40px, 40px 3px;
   padding: 4px;
   margin: 10px;
 }
 #graph-top {
-  background: linear-gradient(to left, #196aa8, #196aa8) left top no-repeat,
-              linear-gradient(to bottom, #196aa8, #196aa8) left top no-repeat,
-              linear-gradient(to left, #196aa8, #196aa8) right top no-repeat, 
-              linear-gradient(to bottom, #196aa8, #196aa8) right top no-repeat,
-              linear-gradient(to left, #196aa8, #196aa8) left bottom no-repeat, 
-              linear-gradient(to bottom, #196aa8, #196aa8) left bottom no-repeat,
-              linear-gradient(to left, #196aa8, #196AA8) right bottom no-repeat,
-              linear-gradient(to left, #196aa8, #196aa8) right bottom no-repeat;
+  background: linear-gradient(to left, rgb(11, 240, 250), rgb(11, 240, 250)) left top no-repeat,
+              linear-gradient(to bottom, rgb(11, 240, 250), rgb(11, 240, 250)) left top no-repeat,
+              linear-gradient(to left, rgb(11, 240, 250), rgb(11, 240, 250)) right top no-repeat, 
+              linear-gradient(to bottom, rgb(11, 240, 250), rgb(11, 240, 250)) right top no-repeat,
+              linear-gradient(to left, rgb(11, 240, 250), rgb(11, 240, 250)) left bottom no-repeat, 
+              linear-gradient(to bottom, rgb(11, 240, 250), rgb(11, 240, 250)) left bottom no-repeat,
+              linear-gradient(to left, rgb(11, 240, 250), rgb(11, 240, 250)) right bottom no-repeat,
+              linear-gradient(to left, rgb(11, 240, 250), rgb(11, 240, 250)) right bottom no-repeat;
   background-size: 3px 40px, 40px 3px, 3px 40px, 40px 3px;
   padding: 4px;
   margin: 10px;

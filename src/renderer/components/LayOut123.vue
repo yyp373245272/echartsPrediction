@@ -60,8 +60,8 @@ export default {
     },
     initData () {
       this.loadInput(this.file.path)
-      this.loadOutpu('D:\\yuyanpeng5\\echartsPrediction\\output\\output.xlsx')
-      this.loadHistory('D:\\yuyanpeng5\\echartsPrediction\\output\\tmp.xlsx')
+      this.loadOutpu('F:\\github\\EchartsDemo\\output\\output.xlsx')
+      this.loadHistory('F:\\github\\EchartsDemo\\output\\tmp.xlsx')
       console.log(this.allData)
     },
     loadInput (file) {

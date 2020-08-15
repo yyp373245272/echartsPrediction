@@ -1,49 +1,46 @@
 <template>
-  <section class="layer">
-    <div class="side-bar">
-      <div>
-        <el-button type="primary" round @click="addFile()">导入</el-button>
-      </div>
-      <div>
-        <el-button type="primary" round>导出</el-button>
-      </div>
-      <div class="menu">
-      <el-menu
-      :default-active="activeIndex" 
-      class="el-menu-demo" 
-      mode="vertical" 
-      @select="handleSelect"
-      :router="new Boolean(true)"
-      >
-      <el-menu-item index="/">
-      </el-menu-item>
-        <el-menu-item 
-        v-for="(item,index) in allData"
+    <div id="main-layout" v-loading="loading">
+      <section class="main-two-section">
+        <div class=side-bar>
+          <div class="btn">
+            <el-button @click="addFile()" id="input-btn" type="primary" round icon="el-icon-plus">导入文件</el-button>
+          </div>
+          <div class="btn">
+            <el-button @click="addFile()" id="output-btn" type="primary" round icon="el-icon-plus">导出文件</el-button>
+          </div>
+          <div class="sku-list" 
+          v-for="(item,index) in allData"
+          :key="index"
+          :class="index==activited?'hover':'sku-item'"
+          @click="enterX(index)">
+          {{ item.sku }}
+          </div>
+        </div>
+        <div id="main-graph"
         :key="item.sku"
-        :id="index"
-        :route="'/page/'+item.sku"
-        :index="'/page/'+item.sku"
-        >
-        {{ item.sku }}
-        </el-menu-item>
-      </el-menu>
-      </div>
+        v-for="(item,index) in allData" >
+          <div class="graph-item" v-if="index==activited">
+          <pic-page :skuData="allData[activited]"/>
+          </div>
+        </div>
+      </section>
     </div>
-    <div class="main-page">
-      <router-view/>
-    </div>
-  </section>
 </template>
+
 <script>
+import PicPage from './PicPage'
 const xlsx = require('node-xlsx')
 const {dialog} = require('electron').remote
 export default {
+  components: {
+    PicPage: PicPage
+  },
   data () {
     return {
       loading: false,
       file: null,
       allData: [],
-      activeIndex: '1'
+      activited: 0
     }
   },
   methods: {
@@ -54,9 +51,6 @@ export default {
         this.initData()
         this.loading = false
       }, 1000)
-      this.$router.push({
-        name: ''
-      })
     },
     // 弹出文件选择窗口，返回文件绝对路径
     windowChoose () {
@@ -73,12 +67,13 @@ export default {
           path: filePath[0]
         }
       }
+      // console.log(this.file)
     },
     initData () {
       this.loadInput(this.file.path)
-      this.loadOutpu('D:\\yuyanpeng5\\echartsPrediction\\output\\output.xlsx')
-      this.loadHistory('D:\\yuyanpeng5\\echartsPrediction\\output\\tmp.xlsx')
-      console.log(this.allData)
+      this.loadOutpu('F:\\github\\EchartsDemo\\output\\output.xlsx')
+      this.loadHistory('F:\\github\\EchartsDemo\\output\\tmp.xlsx')
+      // console.log(this.allData)
     },
     loadInput (file) {
       // 读取表格
@@ -156,27 +151,48 @@ export default {
       var dateStr = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate()
       return dateStr.toString()
     },
-    handleSelect (key, keyPath) {
-      console.log(key, keyPath)
+    enterX (index) {
+      // console.log(index)
+      this.activited = index
     }
   }
 }
 </script>
+
 <style>
-.layer {
-  width: 100%;
+#main-layout {
+  border: 2px solid;
+  min-width: 1024px;
+  max-width: 1920px;
+  margin: 0 auto;
+  padding: 10px;
   height: 100%;
-  display: flex;
+}
+.main-two-section {
+  height: 100%;
+  width: 100%;
 }
 .side-bar {
-  width: 100%;
-  height: 100%;
-  flex: 3;
+  border-right:2px solid #000;
 }
-.main-page {
+#main-graph {
+}
+.graph-item {
   width: 100%;
   height: 100%;
-  background-color: pink;
-  flex: 7;
+}
+.sku-list {
+  margin: 10px;
+  background-color: rgb(32, 32, 32);
+  padding-top: 15px;
+  height: 60px;
+  font-size: 20px;
+  color: aliceblue;
+  font-weight: normal;
+  border-radius: 10px;
+}
+.hover {
+  background-color: rgb(0, 0, 0);
+  font-weight: 700;
 }
 </style>

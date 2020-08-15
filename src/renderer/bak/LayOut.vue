@@ -1,35 +1,38 @@
 <template>
-    <div id="main-layout" v-loading="loading">
-        <div id="head-bar">
-            <el-button @click="addFile()" id="add-btn" type="primary" round icon="el-icon-plus"></el-button>
+  <section class="layer">
+    <div class="side-bar">
+      <div>
+        <el-button type="primary" round @click="addFile()">导入</el-button>
+      </div>
+      <div>
+        <el-button type="primary" round>导出</el-button>
+      </div>
+      <div class="menu">
+        <div class="menu-item" 
+        v-for="(item,index) in allData"
+        :key="item.sku"
+        :id="index">
+          <router-link :to="'/page/'+item.sku + '' ">
+          {{ item.sku }}
+          </router-link>
         </div>
-        <div id="main-graph">
-          <el-tabs tab-position="left" style="height: 100%;">
-            <el-tab-pane 
-            :key="item.sku"
-            v-for="(item,index) in allData" 
-            :label="item.sku"
-            :id="index">
-            <pic-page :skuData="allData[index]"/>
-            </el-tab-pane>
-          </el-tabs>
-        </div>
+      </div>
     </div>
+    <div class="main-page">
+      <router-view :allData="allData"/>
+    </div>
+  </section>
 </template>
-
 <script>
-import PicPage from './PicPage'
 const xlsx = require('node-xlsx')
 const {dialog} = require('electron').remote
 export default {
-  components: {
-    PicPage: PicPage
-  },
   data () {
     return {
       loading: false,
       file: null,
-      allData: []
+      allData: [],
+      activeIndex: '1'
     }
   },
   methods: {
@@ -40,6 +43,9 @@ export default {
         this.initData()
         this.loading = false
       }, 1000)
+      this.$router.push({
+        name: ''
+      })
     },
     // 弹出文件选择窗口，返回文件绝对路径
     windowChoose () {
@@ -56,12 +62,11 @@ export default {
           path: filePath[0]
         }
       }
-      console.log(this.file)
     },
     initData () {
       this.loadInput(this.file.path)
-      this.loadOutpu('D:\\yuyanpeng5\\echartsPrediction\\output\\output.xlsx')
-      this.loadHistory('D:\\yuyanpeng5\\echartsPrediction\\output\\tmp.xlsx')
+      this.loadOutpu('F:\\github\\EchartsDemo\\output\\output.xlsx')
+      this.loadHistory('F:\\github\\EchartsDemo\\output\\tmp.xlsx')
       console.log(this.allData)
     },
     loadInput (file) {
@@ -139,36 +144,28 @@ export default {
       var date = new Date(1900, 0, num - 1)
       var dateStr = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate()
       return dateStr.toString()
+    },
+    handleSelect (key, keyPath) {
+      console.log(key, keyPath)
     }
   }
 }
 </script>
-
 <style>
-#main-layout {
-  border: 2px solid;
-  min-width: 1024px;
-  max-width: 1920px;
-  margin: 0 auto;
-  padding: 10px;
+.layer {
+  width: 100%;
   height: 100%;
+  display: flex;
 }
-#main-graph {
+.side-bar {
+  width: 100%;
   height: 100%;
+  flex: 2;
 }
-.el-tabs__item{
-  padding: 3px;
-  background-color: rgb(61, 61, 61);
-  color: rgb(255, 255, 255) !important;
-  font-weight: 500 !important;
-  border-radius: 7px;
-  margin: 10px;
-}
-.el-tabs__item.is-active {
-  font-weight: 700 !important;
-  background-color: rgb(36, 36, 36);
-}
-.el-tabs__active-bar {
-  background-color: rgb(255, 255, 255) !important;
+.main-page {
+  width: 100%;
+  height: 100%;
+  background-color: pink;
+  flex: 8;
 }
 </style>

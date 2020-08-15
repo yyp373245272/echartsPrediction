@@ -22,6 +22,9 @@ export default {
       }, 50)
     })
   },
+  updated () {
+    this.updateChart()
+  },
   methods: {
     // 初始化
     initChart () {

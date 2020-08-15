@@ -34,8 +34,8 @@ export default {
       })
     },
     updateChart () {
-      const totalData = this.skuData.history.concat(this.skuData.output)
-      console.log(totalData)
+      // const totalData = this.skuData.history.concat(this.skuData.output)
+      // console.log(totalData)
       const dateHis = this.skuData.history.map((item) => {
         return item.date
       })
@@ -80,11 +80,11 @@ export default {
           axisPointer: {
             type: 'cross',
             z: 0
-          },
-          formatter: function (params) {
-            console.log(params[0])
-            return params
           }
+          // formatter: function (params) {
+          //   console.log(params[0])
+          //   return params
+          // }
         },
         visualMap: {
           show: false,
