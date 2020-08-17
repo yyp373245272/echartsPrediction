@@ -7,7 +7,9 @@
         <div id="graph-bottom">
           <section id="graph-lr">
           <div id="graph-left"><sole-qtty :skuData="skuData"/></div>
-          <div id="graph-right"></div>
+          <div id="graph-right">
+            <ware-house :skuData="skuData"/>
+          </div>
         </section>
       </div>
     </div>
@@ -16,28 +18,15 @@
 <script>
 import SoleQtty from './SoleQtty'
 import TotalLine from './TotalLine'
+import WareHouse from './WareHouse'
 export default {
   components: {
     SoleQtty: SoleQtty,
-    TotalLine: TotalLine
+    TotalLine: TotalLine,
+    WareHouse: WareHouse
   },
   props: ['skuData'],
-  mounted () {
-    console.log(this.skuData.sku + 'mounted')
-  },
-  beforeUpdate () {
-    console.log(this.skuData.sku + 'beforeUpdate')
-  },
-  updated () {
-    console.log(this.skuData.sku + 'updated')
-  },
-  activated () {
-    console.log(this.skuData.sku + 'activated')
-  },
   methods: {
-    debug () {
-      console.log(this.skuData)
-    }
   }
 }
 </script>
@@ -48,11 +37,11 @@ export default {
   width: 100%;
 }
 #graph-top {
-  height: 400px;
+  height: 350px;
   margin-bottom: 10px;
 }
 #graph-bottom {
-  height: 500px;
+  height: 400px;
 }
 #graph-lr {
   height: 100%;

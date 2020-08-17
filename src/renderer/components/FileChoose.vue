@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     getFile (file, filelist) {
-      console.log(file)
+      // console.log(file)
       var fileName = file.name
       var filePath = file.raw.path
       if (this.validExcel(fileName, '.xls') || this.validExcel(fileName, '.xlsx')) {

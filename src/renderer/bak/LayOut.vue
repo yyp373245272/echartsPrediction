@@ -144,9 +144,6 @@ export default {
       var date = new Date(1900, 0, num - 1)
       var dateStr = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate()
       return dateStr.toString()
-    },
-    handleSelect (key, keyPath) {
-      console.log(key, keyPath)
     }
   }
 }

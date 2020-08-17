@@ -26,7 +26,7 @@ export default {
       if (filePath !== null) {
         this.file = filePath
       }
-      console.log(filePath)
+      // console.log(filePath)
     }
   }
 }

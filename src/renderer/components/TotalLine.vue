@@ -20,15 +20,10 @@ export default {
     }, 10)
     this.updateChart()
   },
-  activated () {
-  },
   methods: {
     // 初始化
     initChart () {
       this.chartInstance = this.$echarts.init(this.$refs.qtty_ref, 'dark')
-      this.chartInstance.on('click', (arg) => {
-        console.log(arg.dataIndex)
-      })
       window.addEventListener('resize', () => {
         this.chartInstance.resize()
       })
@@ -36,44 +31,74 @@ export default {
     updateChart () {
       // const totalData = this.skuData.history.concat(this.skuData.output)
       // console.log(totalData)
-      const dateHis = this.skuData.history.map((item) => {
-        return item.date
-      })
-      const datePre = this.skuData.output.map((item) => {
-        return item.date
-      })
-      const qttyHis = this.skuData.history.map((item) => {
-        return item.qtty
-      })
-      const qttyPre = this.skuData.output.map((item) => {
-        return item.qtty
-      })
-      var date = dateHis.concat(datePre)
-      var qtty = qttyHis.concat(qttyPre)
-      var pointMid = qttyHis.length
-      var pointEnd = qtty.length
+      var date = []
+      var qtty = []
+      var dateHis = []
+      var datePre = []
+      var qttyPre = []
+      var qttyHis = []
+      if (this.skuData !== undefined) {
+        dateHis = this.skuData.history.map((item) => {
+          return item.date
+        })
+        datePre = this.skuData.output.map((item) => {
+          return item.date
+        })
+        qttyHis = this.skuData.history.map((item) => {
+          return item.qtty
+        })
+        qttyPre = this.skuData.output.map((item) => {
+          return item.qtty
+        })
+        for (var i = 0; i < qttyHis.length; i++) {
+          qtty.push('-')
+        }
+        date = dateHis.concat(datePre)
+        qtty = qtty.concat(qttyPre)
+        qtty[qttyHis.length - 1] = qttyHis[qttyHis.length - 1]
+      }
+      // var pointEnd = qtty.length
+      // var pointMid = qttyHis.length
       const option = {
         title: {
           text: '▐ 销量统计',
           textStyle: {
-            fontSize: 30
+            fontSize: 30,
+            color: 'rgb(11, 240, 250)'
           },
           left: 20,
-          top: 20
+          top: 10
+        },
+        legend: {
+          show: true,
+          orient: 'vertical',
+          right: '10%',
+          data: ['历史销量', '预测销量']
         },
         grid: {
-          top: '20%',
+          top: '30%',
           left: '3%',
           right: '6%',
           bottom: '3%',
           containLabel: true
         },
         yAxis: {
-          type: 'value'
+          type: 'value',
+          name: '销量',
+          nameLocation: 'end',
+          nameTextStyle: {
+            lineHeight: 0
+          },
+          axisTick: {
+            inside: true
+          }
         },
         xAxis: {
           type: 'category',
-          data: date
+          data: date,
+          axisTick: {
+            inside: true
+          }
         },
         tooltip: {
           trigger: 'axis',
@@ -86,41 +111,48 @@ export default {
           //   return params
           // }
         },
-        visualMap: {
-          show: false,
-          dimension: 0,
-          pieces: [{
-            lt: pointMid,
-            color: 'green'
-          }, {
-            gte: pointMid,
-            lt: pointEnd,
-            color: 'red'
-          }]
-        },
         series: [
           {
+            name: '历史销量',
             type: 'line',
-            data: qtty,
+            data: qttyHis,
+            symbol: 'triangle',
+            symbolSize: 10,
             barWidth: 10,
             label: {
-              show: true,
+              show: false,
               position: 'top',
               textStyle: {
                 color: 'white'
               }
             },
             itemStyle: {
-              color: new this.$echarts.graphic.LinearGradient(0, 0, 1, 0, [
-                {
-                  offset: 0,
-                  color: '#5052EE'
-                },
-                {
-                  offset: 1,
-                  color: '#AB6EE5'
+              normal: {
+                color: 'rgb(11, 240, 250)',
+                lineStyle: {
+                  type: 'dashed',
+                  color: 'rgb(11, 240, 250)'
                 }
-              ])
+              },
+              color: 'rgb(11, 240, 250)'
+            }
+          },
+          {
+            name: '预测销量',
+            type: 'line',
+            data: qtty,
+            symbolSize: 10,
+            barWidth: 10,
+            label: {
+              show: false,
+              position: 'top',
+              textStyle: {
+                color: 'white'
+              }
+            },
+            itemStyle: {
+              color: 'rgb(11, 240, 250)',
+              type: 'dashed'
             }
           }
         ]
